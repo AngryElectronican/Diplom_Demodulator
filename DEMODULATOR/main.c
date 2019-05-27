@@ -15,6 +15,8 @@
 
 #include "Timer.h"
 #include "Usart.h"
+#define MY_ADDR 1
+#define ALL_ADDR 255
 
 #define LED		PD7
 #define PIN_OUT PD3
@@ -36,9 +38,8 @@ ISR(ADC_vect){
 	static uint16_t max=0;
 	static uint16_t delta=76;
 	static uint16_t data=0;
-	static uint8_t	read=0;
+	static uint16_t	read=0;
 	static uint8_t i=0;
-	uint8_t byte_count=0;
 	uint8_t bit=0;
 	data=ADC;
 	if(data>max){
@@ -56,12 +57,13 @@ ISR(ADC_vect){
 		case 0:
 				if(bit==1){
 					state=1;
+					read=0;
 				}
 				break;
 		case 1:
-				read|=bit<<i;
+				read|=bit<<i;//******* исправить
 				i++;
-				if(i>=8){
+				if(i>=16){
 					i=0;
 					state=2;
 				}
@@ -69,11 +71,8 @@ ISR(ADC_vect){
 		case 2:
 				if(bit!=read%2){
 					//read=0;
-					if (read==MY_ADDR){
-						byte_count++;
-					}else if(byte_count){
-						byte_count=0;
-						OCR2B=read;
+					if ((0xFF&(read>>8)==MY_ADDR) || (0xFF&(read>>8)==ALL_ADDR)){
+						OCR2B=(uint8_t)read&0xFF;
 						}
 				}
 				state=0;
