@@ -15,7 +15,7 @@
 
 #include "Timer.h"
 #include "Usart.h"
-#define MY_ADDR 1
+#define MY_ADDR 2
 #define ALL_ADDR 255
 
 #define LED		PD7
@@ -25,10 +25,11 @@
 #define TX		PD1
 #define RX		PD0
 
-Time time1=0,time2=0;
+Time time1=0;
 uint8_t flag=0;
 uint8_t state=0;
-
+uint8_t counter=0;
+uint8_t flag1=0;
 char buf[8];
 void ADC_Init();
 void ADC_SetChannel(uint8_t channel);
@@ -36,20 +37,31 @@ void INT0_Init();
 
 ISR(ADC_vect){
 	static uint16_t max=0;
-	static uint16_t delta=76;
+	static uint16_t min=0;
+	static uint16_t delta=200;
 	static uint16_t data=0;
 	static uint16_t	read=0;
 	static uint8_t i=0;
 	uint8_t bit=0;
 	data=ADC;
+// 	uint8_t mass_debug[5]={0};
+// 	for(int j=0;j<sprintf(mass_debug,"%d\n",data);j++){
+// 		USART_Write(mass_debug+j);
+// 	}
+	if(data<=min){
+		min=data;
+	}
 	if(data>max){
 		max=data;
 	}
-	if (data>max-delta){
+	if (data>=((max+min)/2)){
 		bit=0;
 		max=data;
+		min=max-delta;
 		PORTD|=1<<LED;
 	}else{
+		min=data;
+		max=min+delta;
 		bit=1;
 		PORTD&=~(1<<LED);
 	}
@@ -61,7 +73,7 @@ ISR(ADC_vect){
 				}
 				break;
 		case 1:
-				read|=bit<<i;//******* исправить
+				read|=bit<<i;
 				i++;
 				if(i>=16){
 					i=0;
@@ -78,8 +90,7 @@ ISR(ADC_vect){
 				state=0;
 				break;
 		}
-
-	
+	flag=0;
 }
 
 ISR(INT0_vect){
@@ -99,12 +110,10 @@ int main(void)
 	ADC_SetChannel(0);
 	TCCR2A|=(1<<COM2B1)|(1<<WGM21)|(1<<WGM20);
 	TCCR2B|=(1<<CS22);
-	OCR2B=0;
+	OCR2B=0; 
 	sei();
-	Timer0_StartTimer(&time2);
     while (1) 
     {
-
 		cli();
 		if(Timer0_TimeIsOut(&time1,50)&&flag){
 			flag=0;
@@ -114,7 +123,6 @@ int main(void)
 			}
 			ADCSRA|=1<<ADSC;
 			EIMSK|=1<<INT0;
-			//Timer0_StartTimer(&time1);
 		}
 		sei();
     }
