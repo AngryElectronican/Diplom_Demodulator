@@ -196,7 +196,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x494
+.text           0x00000000      0x498
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.1.130/gcc/dev/atmega328/avr5/crtatmega328.o
                 0x00000000                __vector_default
@@ -278,48 +278,48 @@ END GROUP
                 0x00000090                . = ALIGN (0x2)
  *(.text.*)
  .text.__vector_21
-                0x00000090      0x156 main.o
+                0x00000090      0x158 main.o
                 0x00000090                __vector_21
  .text.__vector_1
-                0x000001e6       0x54 main.o
-                0x000001e6                __vector_1
+                0x000001e8       0x54 main.o
+                0x000001e8                __vector_1
  .text.ADC_Init
-                0x0000023a       0x16 main.o
-                0x0000023a                ADC_Init
+                0x0000023c       0x16 main.o
+                0x0000023c                ADC_Init
  .text.ADC_SetChannel
-                0x00000250        0xe main.o
-                0x00000250                ADC_SetChannel
+                0x00000252        0xe main.o
+                0x00000252                ADC_SetChannel
  .text.INT0_Init
-                0x0000025e        0xe main.o
-                0x0000025e                INT0_Init
- .text.main     0x0000026c       0x74 main.o
-                0x0000026c                main
+                0x00000260        0xe main.o
+                0x00000260                INT0_Init
+ .text.main     0x0000026e       0x76 main.o
+                0x0000026e                main
  .text.__vector_14
-                0x000002e0       0x4a Timer.o
-                0x000002e0                __vector_14
+                0x000002e4       0x4a Timer.o
+                0x000002e4                __vector_14
  .text.Timer0_Init
-                0x0000032a       0x1e Timer.o
-                0x0000032a                Timer0_Init
+                0x0000032e       0x1e Timer.o
+                0x0000032e                Timer0_Init
  .text.Timer0_StartTimer
-                0x00000348       0x1c Timer.o
-                0x00000348                Timer0_StartTimer
+                0x0000034c       0x1c Timer.o
+                0x0000034c                Timer0_StartTimer
  .text.Timer0_TimeIsOut
-                0x00000364       0x3a Timer.o
-                0x00000364                Timer0_TimeIsOut
+                0x00000368       0x3a Timer.o
+                0x00000368                Timer0_TimeIsOut
  .text.Buffer_Write
-                0x0000039e       0x72 Usart.o
-                0x0000039e                Buffer_Write
+                0x000003a2       0x72 Usart.o
+                0x000003a2                Buffer_Write
  .text.__vector_18
-                0x00000410       0x64 Usart.o
-                0x00000410                __vector_18
+                0x00000414       0x64 Usart.o
+                0x00000414                __vector_18
  .text.USART_Init
-                0x00000474       0x1c Usart.o
-                0x00000474                USART_Init
-                0x00000490                . = ALIGN (0x2)
+                0x00000478       0x1c Usart.o
+                0x00000478                USART_Init
+                0x00000494                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000490        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000490                _exit
-                0x00000490                exit
+ .fini9         0x00000494        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000494                _exit
+                0x00000494                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -338,11 +338,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000490        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000494        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000494                _etext = .
+                0x00000498                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000494
+.data           0x00800100        0x0 load address 0x00000498
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -375,8 +375,8 @@ END GROUP
  COMMON         0x00800111        0xb Usart.o
                 0x00800111                mass1
                 0x0080011c                PROVIDE (__bss_end, .)
-                0x00000494                __data_load_start = LOADADDR (.data)
-                0x00000494                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000498                __data_load_start = LOADADDR (.data)
+                0x00000498                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080011c        0x0
                 [!provide]                PROVIDE (__noinit_start, .)

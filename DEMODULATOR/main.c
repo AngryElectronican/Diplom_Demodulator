@@ -84,8 +84,8 @@ ISR(ADC_vect){
 				if(bit!=read%2){
 					//read=0;
 					if ((0xFF&(read>>8)==MY_ADDR) || (0xFF&(read>>8)==ALL_ADDR)){
-						OCR2B=(uint8_t)read&0xFF;
-						}
+							OCR2B=~((uint8_t)read&0xFF);
+					}
 				}
 				state=0;
 				break;
@@ -100,17 +100,17 @@ ISR(INT0_vect){
 }
 
 int main(void)
-{
+{ 
 	DDRD|=(1<<TX)|(1<<LED)|(1<<PIN_OUT);
-	PORTD|=(1<<RX)|(1<<PIN_OUT)|(1<<ZERO);
+	PORTD|=(1<<RX)|(1<<ZERO);
 	USART_Init();
 	Timer0_Init();
 	INT0_Init();
 	ADC_Init();
 	ADC_SetChannel(0);
-	TCCR2A|=(1<<COM2B1)|(1<<WGM21)|(1<<WGM20);
+	TCCR2A|=(1<<WGM21)|(1<<WGM20)|(1<<COM2B1)|(1<<COM2B0);
 	TCCR2B|=(1<<CS22);
-	OCR2B=0; 
+	OCR2B=255; 
 	sei();
     while (1) 
     {
